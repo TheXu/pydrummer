@@ -1,2 +1,2 @@
-# sm808
+# ...d[-_-]b...
 a minimal drum machine
