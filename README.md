@@ -11,44 +11,39 @@ Dependencies
 
 Install
 ---
+```
 pip install -r requirements.txt
+```
 
 Test
 ---
 ```
 python3 test.py
 ```
-**output:**
-```
-[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0] (congalo)
-[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0] (congamid)
-[0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0] (congahi)
-- congalo - congamid - congahi - - - congahi - congamid - congalo - -
-[0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1] (clave)
-- congalo clave mixed clave congahi clave clave - congahi clave mixed clave congalo clave clave
-[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1] (hhclosed)
-[1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0] (kick)
-kick mixed clave mixed mixed mixed clave mixed kick mixed clave mixed mixed mixed clave mixed
-```
+
 Usage
 ---
-1. Create a Song to hold our clips.
+#### 1. Create a Player that we'll use to play our sounds.
 ```python
-from song import Song
-song = Song(bpm=120, time_signature=(4,4))
+from player import Player
+player = Player()
 ```
 
-2. Create a Clip to hold our sequences.
-
-A Clip creates a Sequence for every specified instrument. Each Sequence has one bar with the specified number of steps and one instrument to be used during playback.
-
+#### 2. Create a Song to hold our clips.
 ```python
-from clip import Clip
+from models.song import Song
+song = Song()
+```
+
+#### 3. Add a Clip.
+```python
 import config
-clip = Clip(instruments=config.SM808, steps_per_bar=16)
+song.add_clip(config.SM808)
 ```
 
-You can create new drumkits and add instruments in 'config.py'. In this example we used the SM808 drumkit.
+**Note:** You can create new drumkits and add instruments in 'config.py'. In this example we used the SM808 drumkit.
+
+*config.py:*
 ```config
 SM808 = {
     'clap': 'samples/808/clap.wav',
@@ -58,57 +53,47 @@ SM808 = {
 }
 ```
 
-3. Add clip to our sound.
+#### 4. Add some drum patterns.
+
+First get the clip that we just added to our song.
 ```python
-song.add_clip(clip)
+clip = song.clips[0]
+```
+Now we can update our clip with different instrument patterns to be used during playback. 
+
+For this example we're going to create a four-on-the-floor rhythm. Four-on-the-floor has a kick drum on every beat. Since the default number of steps is 16 and the default time signature is 4/4, which is 4 beats a measure, our pattern should look like: `[1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0]`
+
+That's one kick every 4 steps. To make life easier, you can add a pattern of any length and it will be looped until it reaches the specified number of steps.
+
+```python
+clip.add_pattern(name='kick', pattern=[1,0,0,0])
+```
+**Note:** 'kick' is the name of the instrument that we provided when we created our clip. The name of the instrument indicates which instrument you want to use for your pattern and **must** exactly match what was specified when creating the clip.
+
+Let's just add one more pattern before playing our clip to make it more interesting.
+```python
+clip.add_pattern(name='tomlo', pattern=[0,1,0,1,1,0,0,1])
 ```
 
-4. Update our sequences with patterns.
-
-Here we're going to create a four-on-the-floor drum pattern. First we need to get the clip that we just added to our song.
+#### 5. Play your clip.
 ```python
-four_to_floor = song.clips[0]
+player.play(clip=clip, loops=1)
 ```
-Now we can update our sequences with different patterns to be used during playback. First let's create our kick drum sound.
-
-A four-on-the-floor pattern has a kick on every beat. Since there are 16 steps and 4 beats a measure, our pattern should look like: `kick = [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0]`. That's one kick every 4 steps. To make life easier, you can specify a pattern of any length and it will be looped and copied into our sequence until it fills the entire length of the sequence.
-
-Here we will provide a four-step pattern that will be looped and copied into our 'kick' sequence 4 times. 'kick' is the name of the instrument that we provided when we created our clip. The name of the instrument indicates which sequence you are working on and must exactly match what was specified when creating the clip.
-```python
-four_to_floor.add_pattern(name='kick', pattern=[1,0,0,0])
-```
-
-5. Play your clip.
-```python
-sound.play(four_to_floor, loops=1)
-```
-**output:**
+*output:*
 ```
 [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0] (kick)
-kick - - - kick - - - kick - - - kick - - -
+[0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1] (tomlo)
+kick tomlo - tomlo mix - - tomlo kick tomlo - tomlo mix - - tomlo
 ```
-Here we play our clip for one loop. If loops is unspecified the program will cycle until you ctrl-C. A '-' string is printed out to represent silence.
+A '-' string is printed out to represent silence and a 'mix' string is printed out when one or more sounds had to be mixed so they could be played back at the same time. If loops is unspecified the program will cycle until you ctrl-C. 
 
-We can add different instruments to our beat by continuing to update sequences with different patterns.
+You can also adjust playback tempo in the player settings.
+```python
+player.settings.bpm = 60
+player.play(clip=clip, loops=1)
 ```
-four_to_floor.add_pattern('hhclosed', [0,1])
-four_to_floor.add_pattern('clave', [0,0,1,1,1,0,1,1])
-song.play(four_to_floor, loops=1)
-```
-**output:**
-```
-[1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0] (kick)
-[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1] (hhclosed)
-[0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1] (clave)
-kick hhclosed clave mixed mixed hhclosed clave mixed kick hhclosed clave mixed mixed hhclosed clave mixed
-```
-A 'mixed' string is printed out when one or more sounds had to be mixed so they could be played back at the same time.
 
-And that's about it. Just add a little conga drums and you have yourself a pretty sick beat.
-
-```
-four_to_floor.add_pattern('congalo', [0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0])
-four_to_floor.add_pattern('congamid', [0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0])
-four_to_floor.add_pattern('congahi', [0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0])
-song.play(four_to_floor)
+**Note:** You can also play the song that holds the clip. This will be more interesting when we can play multiple clips of different instruments at the same time.
+```python
+player.play(song=song)
 ```

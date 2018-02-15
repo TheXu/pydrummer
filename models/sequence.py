@@ -1,4 +1,4 @@
-from sound import Sound
+from models.sound import Sound
 
 class Sequence(object):
     """A Sequence is a series of notes defined by a pattern and a Sound.
@@ -19,9 +19,14 @@ class Sequence(object):
         in our Sequence, loop throught it again an continue setting elements
         until you reach the end.
         """
-        for i in range(self.steps):
+        for i in range(len(self.pattern)):
             self.pattern[i] = pattern[i%len(pattern)]
-            if self.pattern[i] == 1: self.active = True
 
-    def play_step(self, i):
-        self.sound.play()
+    def get_sounds(self):
+        sounds = []
+        for i in range(len(self.pattern)):
+            if self.pattern[i] == 1:
+                sounds.append(self.sound)
+            else:
+                sounds.append(Sound())
+        return sounds

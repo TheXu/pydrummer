@@ -1,5 +1,5 @@
-from mix import Mix
-from sequence import Sequence
+from models.mix import Mix
+from models.sequence import Sequence
 
 class Clip(object):
     """A Clip maintains Sequences and the output Mix sequence.
@@ -9,15 +9,14 @@ class Clip(object):
     together. 
 
     A Sequence is created for every instrument in the instruments dictionary. 
-    Both the Mix and the Sequences have the same number of steps calculated by 
-    bars * steps_per_bar.
+    Both the Mix and the Sequences have the same number of steps.
     """
-    def __init__(self, instruments, bars=1, steps_per_bar=4):
-        self.steps = bars * steps_per_bar
+    def __init__(self, instruments, steps):
+        self.steps = steps
         self.sequences = {}
         for name, fpath in instruments.items():
-            self.sequences[name] = Sequence(name, fpath, self.steps)
-        self.mix = Mix(self.steps)
+            self.sequences[name] = Sequence(name=name, fpath=fpath, steps=self.steps)
+        self.mix = Mix(steps=self.steps)
 
     def add_pattern(self, name, pattern):
         """Add a pattern to the Sequence with the given name.

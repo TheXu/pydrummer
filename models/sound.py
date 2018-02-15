@@ -1,5 +1,4 @@
 import numpy as np
-import sounddevice
 import soundfile
 
 class Sound(object):
@@ -20,10 +19,6 @@ class Sound(object):
             self.data = []
             self.sample_rate = 44100 # TODO: Figure out good default for instrument wave files
         self.data_array = np.array(self.data)
-
-    def play(self):
-        print('{}'.format(self.name), end=' ', flush=True)
-        sounddevice.play(self.data_array, self.sample_rate)
 
     def mix(self, sound):
         # TODO: Figure out how to mix soundfiles of different shapes

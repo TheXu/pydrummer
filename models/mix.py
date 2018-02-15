@@ -1,4 +1,4 @@
-from sound import Sound
+from models.sound import Sound
 
 class Mix(object):
     """A Mix is a single multi-sound pattern created by combing Sequences.
@@ -32,4 +32,7 @@ class Mix(object):
                 self.sounds[i].name = sequence.sound.name
                 continue
             self.sounds[i].mix(sequence.sound) # mix notes together
-            self.sounds[i].name = 'mixed'
+            self.sounds[i].name = 'mix'
+
+    def get_sounds(self):
+        return self.sounds
