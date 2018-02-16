@@ -14,13 +14,13 @@ if __name__ == '__main__':
     song = Song()
 
     # 3. Add clip.
-    song.add_clip(pydrummer.config.SM808, steps=8)
+    song.add_clip(pydrummer.config.SAMPLES['tr808'], steps=8)
 
     # 4. Add pattern.
     print('\nListen to some sounds to pick which ones you like...')
-    player.play(sound=Sound(name="kick", fpath=pydrummer.config.SM808["kick"]))
-    player.play(sound=Sound(name="kick2", fpath=pydrummer.config.SM808["kick2"]))
-    player.play(sound=Sound(name="kick3", fpath=pydrummer.config.SM808["kick3"]))
+    player.play(sound=Sound(name='kick', fpath=pydrummer.config.SAMPLES['tr808']['kick']))
+    player.play(sound=Sound(name='kick2', fpath=pydrummer.config.SAMPLES['tr808']['kick2']))
+    player.play(sound=Sound(name='kick3', fpath=pydrummer.config.SAMPLES['tr808']['kick3']))
     print('\nAdd pattern with the sound you like best...')
     clip = song.clips[0]
     clip.add_pattern('kick3', [1,0])

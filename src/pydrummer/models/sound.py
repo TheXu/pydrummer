@@ -16,12 +16,11 @@ class Sound(object):
     def __init__(self, name='-', fpath=''):
         self.name = name
         self.file_path = fpath
-        try:
-            self.data, self.sample_rate = soundfile.read(fpath, frames=100000, fill_value=0)
-        except Exception as e:
-            print("could not open file location: {}".format(self.file_path))
+        if not fpath:
             self.data = []
             self.sample_rate = 44100
+        else:
+            self.data, self.sample_rate = soundfile.read(fpath, frames=100000, fill_value=0)
         self.data_array = np.array(self.data)
 
     def mix(self, sound):

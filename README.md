@@ -7,8 +7,9 @@ Dependencies
 * Sounddevice
 * SoundFile
 
-Install
+Installation
 ---
+pydrummer supports Python 3.5 and later. It's available on the Python Package Index and can be installed by running:
 ```
 pip install pydrummer
 ```
@@ -16,13 +17,14 @@ pip install pydrummer
 Test
 ---
 ```
-python3 test.py pytest
+python setup.py pytest
 ```
 
 Demo
 ---
 ```
-python3 demo.py
+wget https://raw.githubusercontent.com/allieoop/pydrummer/master/demo.py
+python demo.py
 ```
 
 Usage
