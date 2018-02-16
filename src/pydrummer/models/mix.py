@@ -1,4 +1,5 @@
-from models.sound import Sound
+from pydrummer.models.sound import Sound
+
 
 class Mix(object):
     """A Mix is a single multi-sound pattern created by combing Sequences.
@@ -9,6 +10,7 @@ class Mix(object):
     continue to play until they finish instead of cutting every sound off at
     each step
     """
+
     def __init__(self, steps):
         self.steps = steps
         self.sounds = [Sound()] * steps
@@ -24,15 +26,15 @@ class Mix(object):
         pattern.
         """
         for i in range(self.steps):
-            if sequence.pattern[i] == 0: # nothing to merge in
+            if sequence.pattern[i] == 0:  # nothing to copy or mix
                 continue
-            if self.pattern[i] == 0: # copy note
+            if self.pattern[i] == 0:  # copy note
                 self.pattern[i] = 1
                 self.sounds[i] = Sound(sequence.sound.name, sequence.sound.file_path)
                 self.sounds[i].name = sequence.sound.name
-                continue
-            self.sounds[i].mix(sequence.sound) # mix notes together
-            self.sounds[i].name = 'mix'
+            else:  # mix notes together
+                self.sounds[i].mix(sequence.sound)
+                self.sounds[i].name = 'mix'
 
     def get_sounds(self):
         return self.sounds

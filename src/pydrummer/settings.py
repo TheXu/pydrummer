@@ -1,5 +1,3 @@
-SECONDS_PER_MIN = 60.0
-
 class PlaybackSettings(object):
     def __init__(self, bpm, time_signature):
         self.beats_per_measure = time_signature[0]

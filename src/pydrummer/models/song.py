@@ -1,8 +1,10 @@
-from models.clip import Clip
+from pydrummer.models.clip import Clip
+
 
 class Song():
     """A Song is a container for Clips.
     """
+
     def __init__(self):
         self.clips = []
 

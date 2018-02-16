@@ -1,11 +1,10 @@
 #!/usr/bin/python3
 
-import config
+import pydrummer.config
 
-from models.song import Song
-from models.sound import Sound
-from player import Player
-from settings import PlaybackSettings
+from pydrummer.models.song import Song
+from pydrummer.models.sound import Sound
+from pydrummer.player import Player
 
 if __name__ == '__main__':
     # 1. Create player that we'll use to play sounds.
@@ -15,13 +14,13 @@ if __name__ == '__main__':
     song = Song()
 
     # 3. Add clip.
-    song.add_clip(config.SM808, steps=8)
+    song.add_clip(pydrummer.config.SM808, steps=8)
 
     # 4. Add pattern.
     print('\nListen to some sounds to pick which ones you like...')
-    player.play(sound=Sound(name="kick", fpath=config.SM808["kick"]))
-    player.play(sound=Sound(name="kick2", fpath=config.SM808["kick2"]))
-    player.play(sound=Sound(name="kick3", fpath=config.SM808["kick3"]))
+    player.play(sound=Sound(name="kick", fpath=pydrummer.config.SM808["kick"]))
+    player.play(sound=Sound(name="kick2", fpath=pydrummer.config.SM808["kick2"]))
+    player.play(sound=Sound(name="kick3", fpath=pydrummer.config.SM808["kick3"]))
     print('\nAdd pattern with the sound you like best...')
     clip = song.clips[0]
     clip.add_pattern('kick3', [1,0])

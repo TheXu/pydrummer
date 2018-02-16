@@ -2,13 +2,14 @@ import sounddevice
 import itertools
 import time
 
-from settings import PlaybackSettings
+from pydrummer.settings import PlaybackSettings
 
 SECONDS_PER_MIN = 60.0
-MIN_STEP_TIME = 0.01 # TODO: Figure out a way to not have to cut off notes at the 
-                     # beginning of the next step. This is will make it so we don't 
-                     # hit this minimum so often, which will give us a less choppy
-                     # sound.
+MIN_STEP_TIME = 0.01    # TODO: Figure out a way to not have to cut off notes at the
+                        # beginning of the next step. This is will make it so we don't
+                        # hit this minimum so often, which will give us a less choppy
+                        # sound.
+
 
 class Player(object):
     def __init__(self):
@@ -30,7 +31,7 @@ class Player(object):
         sounddevice.play(sound.data_array, sound.sample_rate, blocking=blocking)
 
     # TODO: Improve accuracy of calculatation for when to play the next beat
-    # Maybe try realigning every bar - use absolute time? 
+    # Maybe try realigning every bar - use absolute time?
     def play_loop(self, sounds, step_time_s, loops=-1):
         """Play a note for every step in the clip
 
@@ -45,7 +46,7 @@ class Player(object):
             # sleep for the remainding amount of time
             elapsed = time.time() - now
             time.sleep(max(MIN_STEP_TIME, step_time_s - elapsed))
-            if i == steps-1:
+            if i == steps - 1:
                 loop_count += 1
                 print('')
             if loop_count == loops:
@@ -62,4 +63,3 @@ class Player(object):
     def play_song(self, song, loops=-1):
         for clip in song.clips:
             self.play_clip(clip=clip, loops=loops)
-

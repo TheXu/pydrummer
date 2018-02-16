@@ -1,4 +1,5 @@
-from models.sound import Sound
+from pydrummer.models.sound import Sound
+
 
 class Sequence(object):
     """A Sequence is a series of notes defined by a pattern and a Sound.
@@ -6,6 +7,7 @@ class Sequence(object):
     A pattern is an array of zeros and ones and has a length equal to the
     number of steps in our playback window.
     """
+
     def __init__(self, name, fpath, steps):
         self.name = name
         self.sound = Sound(name, fpath)
@@ -20,7 +22,7 @@ class Sequence(object):
         until you reach the end.
         """
         for i in range(len(self.pattern)):
-            self.pattern[i] = pattern[i%len(pattern)]
+            self.pattern[i] = pattern[i % len(pattern)]
 
     def get_sounds(self):
         sounds = []
