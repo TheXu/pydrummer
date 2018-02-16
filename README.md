@@ -1,5 +1,5 @@
 # ...d[-_-]b...
-sm808 is a minimal drum machine you can use to design drum patterns that can be played back with different instruments at precise time steps.
+a minimal drum machine you can use to design drum patterns that can be played back with different instruments at precise time steps.
 
 Dependencies
 ---
@@ -85,7 +85,7 @@ player.play(clip=clip, loops=1)
 [0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1] (tomlo)
 kick tomlo - tomlo mix - - tomlo kick tomlo - tomlo mix - - tomlo
 ```
-A '-' string is printed out to represent silence and a 'mix' string is printed out when one or more sounds had to be mixed so they could be played back at the same time. If loops is unspecified the program will cycle until you ctrl-C. 
+A '-' string is printed out to represent silence and a 'mix' string is printed out when two or more sounds had to be mixed so they could be played back at the same time. If loops is unspecified the program will cycle until you ctrl-C. 
 
 You can also adjust playback tempo in the player settings.
 ```python
