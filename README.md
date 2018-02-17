@@ -31,31 +31,32 @@ Usage
 ---
 #### 1. Create a Player that we'll use to play our sounds.
 ```python
-from player import Player
+from pydrummer.player import Player
 player = Player()
 ```
 
 #### 2. Create a Song to hold our clips.
 ```python
-from models.song import Song
+from pydrummer.models.song import Song
 song = Song()
 ```
 
 #### 3. Add a Clip.
 ```python
-import config
-song.add_clip(config.SM808, steps=8)
+import pydrummer.config
+song.add_clip(pydrummer.config.SAMPLES['tr808'], steps=8)
 ```
 
-**Note:** You can create new drumkits and add instruments in 'config.py'. In this example we used the SM808 drumkit.
+**Note:** You can create new drumkits and add them to 'config.py'. After adding a new drumkit, the wave files become accessible via the 'pydrummer.config.SAMPLES' dictionary. In this example we use the pre-installed 'tr808' drumkit. Below you can see that we use a relative path for its location since it lives in the project directory.
 
 *config.py:*
-```config
-SM808 = {
-    'clap': 'samples/808/clap.wav',
-    'clave': 'samples/808/clave.wav',
-    'congahi': 'samples/808/congahi.wav',
-    ...
+```python
+"""Add your drumkits here.
+
+DRUMKITS maps the name of a drumkit to its samples directory.
+"""
+DRUMKITS = {
+    'tr808': 'samples/808',
 }
 ```
 
@@ -74,7 +75,7 @@ That's one kick every 2 steps. To make life easier, you can add a pattern of any
 ```python
 clip.add_pattern(name='kick', pattern=[1,0])
 ```
-**Note:** 'kick' is the name of the instrument that we provided when we created our clip. The name of the instrument indicates which instrument you want to use for your pattern and **must** exactly match what was specified when creating the clip.
+**Note:** 'kick' is the name of one of the instruments we provided when adding our clip with the 'tr808' drumkit. The name of the instrument indicates which instrument you want to use for your pattern and **must** exactly match what was specified when creating the clip. To see a list of names and their associated sound files: `print(pydrummer.config.SAMPLES['tr808'])` You can also create a Sound object and pass it to 'Player.play' to hear what each wave file sounds like (see demo.py for an example).
 
 Let's just add one more pattern before playing our clip to make it more interesting.
 ```python
